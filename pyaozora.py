@@ -12,6 +12,11 @@ def process_tag(tag):
             elif i.name != None:
                 i.extract()
 
+def unruby(tag):
+    arr = tag.find_all("ruby")
+    for i in arr:
+        i.replace_with(i.rb.string)
+
 def sanitize_soup(soup):
     result = soup.html.body.find_all("div", "main_text")
 
@@ -26,10 +31,11 @@ def sanitize_soup(soup):
         if type(i) == Tag:
             chapter_result = i.find_all("a", "midashi_anchor")
             if len(chapter_result) != 0:
+                unruby(chapter_result[0])
                 if chapter_name:
                     chapters.append((chapter_name, current_chapter))
                     current_chapter = BeautifulSoup()
-                chapter_name = chapter_result[0].string
+                chapter_name = "".join([str(i) for i in chapter_result[0].contents])
 
         current_chapter.append(i)
         j+=1
