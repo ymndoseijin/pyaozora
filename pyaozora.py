@@ -88,6 +88,7 @@ body {
     -webkit-line-break: normal;
 }
 '''
+        book.add_metadata(None, 'meta', '', {'name': 'primary-writing-mode', 'content': 'horizontal-rl'})
 
     if args.tategaki or (not args.tategaki and not args.yokogaki):
         style = '''
@@ -110,6 +111,8 @@ body {
     -webkit-line-break: normal;
 }
 '''
+        book.add_metadata(None, 'meta', '', {'name': 'primary-writing-mode', 'content': 'vertical-rl'})
+
     default_css = epub.EpubItem(uid="style_default", file_name="style/default.css", media_type="text/css", content=style)
     book.add_item(default_css)
 
@@ -183,7 +186,6 @@ nav[epub|type~='toc'] > ol > li > ol > li {
     for chapter in cn:
         book.spine.append(chapter)
 
-    book.add_metadata(None, 'meta', '', {'name': 'primary-writing-mode', 'content': 'horizontal-rl'})
 
     # create epub file
     if args.output is None:
